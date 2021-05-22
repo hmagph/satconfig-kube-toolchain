@@ -49,7 +49,7 @@
         },
         "satellite-cluster-group": {
             "description": {
-                "$ref": "#/messages/deploy.clusterGroup"
+                "$ref": "#/messages/deploy.satelliteClusterGroup"
             },
             "type": "string",
             "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
@@ -69,7 +69,7 @@
             "pattern": "\\S"
         }
     },
-    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "cluster-group", "cluster-namespace"],
+    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "satellite-cluster-group", "cluster-namespace"],
     "form": [{
             "type": "validator",
             "url": "/devops/validator/validator-v1.html"
@@ -129,7 +129,7 @@
             "items": [{
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/deploy.clusterGroup"
+                        "$ref": "#/messages/deploy.satelliteClusterGroup"
                     }
                 }, {
                     "type": "label",
@@ -161,7 +161,7 @@
             "items": [{
                 "type": "label",
                 "title": {
-                    "$ref": "#/messages/deploy.clusterGroupDescription"
+                    "$ref": "#/messages/deploy.satelliteClusterGroupDescription"
                 }
             }]
         }, {
