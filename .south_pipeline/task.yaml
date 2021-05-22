@@ -47,6 +47,8 @@ spec:
   results:
     - name: app-url
       description: The running application's URL (obtained from APP_URL variable set by the executed script)
+    - name: satellite-cluster-group
+      description: The name of the satellite cluster group
     - name: satellite-config
       description: The name of the satellite configuration deployed
     - name: satellite-config-version
