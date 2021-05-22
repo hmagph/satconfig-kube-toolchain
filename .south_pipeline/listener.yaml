@@ -46,6 +46,15 @@ spec:
       default: "0"
     - name: satellite-cluster-group
       description: the name of the cluster group to target
+    - name: satellite-config-name
+      description: The name of the satellite configuration deployed
+      default: ""
+    - name: satellite-config-version-name
+      description: The name of the version of the satellite configuration deployed
+      default: ""
+    - name: satellite-subscription-name
+      description: The name of the subscription of satellite configuration deployed
+      default: ""
     - name: cluster-namespace
       description: namespace dev
     - name: pr-url
