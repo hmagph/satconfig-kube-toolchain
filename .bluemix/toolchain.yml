@@ -97,7 +97,7 @@ services:
           PIPELINE_REPO: pipeline-repo
           APP_REPO: repo
           API_KEY: '{{form.pipeline.parameters.api-key}}'
-          APP_NAME: "{{form.pipeline.parameters.app-name}}"
+          APP_NAME: '{{form.pipeline.parameters.app-name}}'
           ARTIFACTORY_DOCKER_CONFIG_JSON: '{{form.artifactoryComp.parameters.docker_config_json}}'
           PRIVATE_WORKER: '{{services.privateWorker.parameters.name}}'
           PIPELINE_REPO_BRANCH: >
@@ -145,7 +145,7 @@ services:
           REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
           REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
           API_KEY: "{{form.pipeline.parameters.api-key}}"
-          CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
+          SATELLITE_CLUSTER_GROUP: "{{form.pipeline.parameters.satellite-cluster-group}}"
           CLUSTER_NAMESPACE: "{{form.pipeline.parameters.cluster-namespace}}"
           APP_REPO_FULL: >
             if ( $env.source_provider === 'githubconsolidated' ) {
@@ -196,6 +196,6 @@ form:
       registry-region: '{{registryRegion}}'
       registry-namespace: '{{registryNamespace}}'
       api-key: '{{apiKey}}'
-      satellite-cluster-group: '{{clusterGroup}}'
+      satellite-cluster-group: '{{satelliteClusterGroup}}'
     schema:
       $ref: deploy.json

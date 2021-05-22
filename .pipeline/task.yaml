@@ -83,7 +83,7 @@ spec:
             secretKeyRef:
               name: $(params.continuous-delivery-context-secret)
               key: $(params.kubernetes-service-apikey-secret-key)
-        - name: CLUSTER_GROUP
+        - name: SATELLITE_CLUSTER_GROUP
           value: $(params.satellite-cluster-group)
         - name: CONFIG_NAME
           value: $(params.satellite-config-name)

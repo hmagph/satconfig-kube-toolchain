@@ -83,13 +83,13 @@ spec:
             secretKeyRef:
               name: $(params.continuous-delivery-context-secret)
               key: $(params.kubernetes-service-apikey-secret-key)
-        - name: CLUSTER_GROUP
+        - name: SATELLITE_CLUSTER_GROUP
           value: $(params.satellite-cluster-group)
-        - name: CONFIG_NAME
+        - name: SATELLITE_CONFIG_NAME
           value: $(params.satellite-config-name)
-        - name: SUBSCRIPTION_NAME
+        - name: SATELLITE_SUBSCRIPTION_NAME
           value: $(params.satellite-subscription-name)
-        - name: VERSION_NAME
+        - name: SATELLITE_CONFIG_VERSION_NAME
           value: $(params.satellite-config-version-name)
         - name: PIPELINE_IMAGE_URL
           value: $(params.image-url)
@@ -129,9 +129,9 @@ spec:
 
         # Record task results
         echo -n "$APP_URL" > $(results.app-url.path)
-        echo -n "$CONFIG_NAME" > $(results.satellite-config-name.path)
-        echo -n "$SUBSCRIPTION_NAME" > $(results.satellite-subscription-name.path)
-        echo -n "$VERSION_NAME" > $(results.satellite-config-version-name.path)
+        echo -n "$SATELLITE_CONFIG_NAME" > $(results.satellite-config-name.path)
+        echo -n "$SATELLITE_SUBSCRIPTION_NAME" > $(results.satellite-subscription-name.path)
+        echo -n "$SATELLITE_CONFIG_VERSION_NAME" > $(results.satellite-config-version-name.path)
       volumeMounts:
         - mountPath: /cd-config
           name: cd-config-volume
