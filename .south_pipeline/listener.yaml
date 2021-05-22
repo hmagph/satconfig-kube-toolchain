@@ -117,8 +117,14 @@ spec:
             value: $(params.deployment-file)
           - name: keep-ingress-custom-domain
             value: $(params.keep-ingress-custom-domain)
-          - name: cluster-name
+          - name: satellite-cluster-group
             value: $(params.satellite-cluster-group)
+          - name: satellite-config-name
+            value: $(params.satellite-config-name)
+          - name: satellite-config-version-name
+            value: $(params.satellite-config-version-name)
+          - name: satellite-subscription-name
+            value: $(params.satellite-subscription-name)
           - name: cluster-namespace
             value: $(params.cluster-namespace)
           - name: pipeline-debug
