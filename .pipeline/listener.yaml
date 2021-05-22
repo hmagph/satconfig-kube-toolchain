@@ -44,11 +44,9 @@ spec:
       default: "false"
     - name: pipeline-debug
       default: "0"
-    - name: cluster-name
-      description: the name of the cluster to target
-    - name: dev-region
-    - name: dev-resource-group
-    - name: dev-cluster-namespace
+    - name: cluster-group
+      description: the name of the cluster group to target
+    - name: cluster-namespace
       description: namespace dev
   resourcetemplates:
     - apiVersion: v1
@@ -100,14 +98,10 @@ spec:
             value: $(params.deployment-file)
           - name: keep-ingress-custom-domain
             value: $(params.keep-ingress-custom-domain)
-          - name: dev-region
-            value: $(params.dev-region)
-          - name: dev-resource-group
-            value: $(params.dev-resource-group)
-          - name: cluster-name
-            value: $(params.cluster-name)
-          - name: dev-cluster-namespace
-            value: $(params.dev-cluster-namespace)
+          - name: cluster-group
+            value: $(params.cluster-group)
+          - name: cluster-namespace
+            value: $(params.cluster-namespace)
           - name: pipeline-debug
             value: $(params.pipeline-debug)
         workspaces:

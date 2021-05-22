@@ -1,8 +1,8 @@
-# ![Icon](./.bluemix/secure-lock-kubernetes.png) Develop a Kubernetes app
+# ![Icon](./.bluemix/secure-lock-kubernetes.png) Develop and deliver an app across a group of Kubernetes & OpenShift clusters 
 
 
-### Continuously deliver a secure container app to a Kubernetes Cluster
-This Hello World application uses Docker with Node.js and includes a DevOps toolchain that is preconfigured for continuous delivery with Vulnerability Advisor, source control, issue tracking, and online editing, and deployment to the IBM Kubernetes Service.
+### Continuously deliver a secure container app across clusters using Satellite Configuration
+This Hello World application uses Docker with Node.js and includes a DevOps toolchain that is preconfigured for continuous delivery with Vulnerability Advisor, source control, issue tracking, and online editing, and deployment via IBM Cloud Satellite Configuration across a group of Kubernetes and OpenShift clusters.
 
 Application code is stored in source control, along with its Dockerfile and its Kubernetes deployment script.
 The target cluster is configured during toolchain setup (using an IBM Cloud API key and cluster name). You can later change these by altering the Delivery Pipeline configuration.
@@ -11,7 +11,7 @@ Any code change to the Git repo will automatically be built, validated and deplo
 ![Icon](./.bluemix/toolchain.png)
 
 ### To get started, click this button:
-[![Create toolchain](https://cloud.ibm.com/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https%3A%2F%2Fgithub.com%2Fopen-toolchain%2Fsecure-kube-toolchain&env_id=ibm:yp:us-south)
+[![Create toolchain](https://cloud.ibm.com/devops/graphics/create_toolchain_button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https%3A%2F%2Fgithub.com%2Fhmagph%2Fsatconfig-kube-toolchain&env_id=ibm:yp:us-south)
 
 It implements the following best practices:
 - sanity check the Dockerfile prior to attempting creating the image,

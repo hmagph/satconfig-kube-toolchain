@@ -47,39 +47,14 @@
                 "validate": false
             }
         },
-        "prod-region": {
+        "cluster-group": {
             "description": {
-                "$ref": "#/messages/region"
+                "$ref": "#/messages/deploy.clusterGroup"
             },
             "type": "string",
-            "disabled": false,
-            "validator": {
-                "v-type": "k8s-region",
-                "params": ["api-key"]
-            }
+            "pattern": "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"
         },
-        "prod-resource-group": {
-            "description": {
-                "$ref": "#/messages/deploy.rg"
-            },
-            "type": "string",
-            "validator": {
-                "v-type": "resource-group",
-                "params": ["api-key"]
-            }
-        },
-        "prod-cluster-name": {
-            "description": {
-                "$ref": "#/messages/deploy.cluster"
-            },
-            "type": "string",
-            "pattern": "\\S",
-            "validator": {
-                "v-type": "k8s-cluster-name",
-                "params": ["prod-resource-group", "prod-region"]
-            }
-        },
-        "prod-cluster-namespace": {
+        "cluster-namespace": {
             "description": {
                 "$ref": "#/messages/deploy.clusterNs"
             },
@@ -94,7 +69,7 @@
             "pattern": "\\S"
         }
     },
-    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "prod-region", "prod-resource-group", "prod-cluster-name", "prod-cluster-namespace"],
+    "required": ["app-name", "api-key", "registry-region", "registry-namespace", "cluster-group", "cluster-namespace"],
     "form": [{
             "type": "validator",
             "url": "/devops/validator/validator-v1.html"
@@ -149,30 +124,12 @@
             }]
         }, {
             "type": "table",
-            "columnCount": 7,
-            "widths": ["24%", "2%", "24%", "3%", "23%", "1%", "23%"],
+            "columnCount": 3,
+            "widths": ["50%", "3%", "47%"],
             "items": [{
                     "type": "label",
                     "title": {
-                        "$ref": "#/messages/region"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.rg"
-                    }
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "label",
-                    "title": {
-                        "$ref": "#/messages/deploy.cluster"
+                        "$ref": "#/messages/deploy.clusterGroup"
                     }
                 }, {
                     "type": "label",
@@ -184,23 +141,8 @@
                         "$ref": "#/messages/deploy.clusterNs"
                     }
                 }, {
-                    "type": "select",
-                    "key": "prod-region"
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "select",
-                    "key": "prod-resource-group",
-                    "readonly": false
-                }, {
-                    "type": "label",
-                    "title": ""
-                },
-                {
-                    "type": "select",
-                    "key": "prod-cluster-name",
+                    "type": "text",
+                    "key": "cluster-group",
                     "readonly": false
                 }, {
                     "type": "label",
@@ -208,7 +150,7 @@
                 },
                 {
                     "type": "text",
-                    "key": "prod-cluster-namespace",
+                    "key": "cluster-namespace",
                     "readonly": false
                 }
             ]
@@ -219,7 +161,7 @@
             "items": [{
                 "type": "label",
                 "title": {
-                    "$ref": "#/messages/deploy.clusterDescription"
+                    "$ref": "#/messages/deploy.clusterGroupDescription"
                 }
             }]
         }, {

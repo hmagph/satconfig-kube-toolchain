@@ -145,10 +145,8 @@ services:
           REGISTRY_REGION_ID: "{{form.pipeline.parameters.registry-region}}"
           REGISTRY_NAMESPACE: "{{form.pipeline.parameters.registry-namespace}}"
           API_KEY: "{{form.pipeline.parameters.api-key}}"
-          PROD_REGION_ID: "{{form.pipeline.parameters.prod-region}}"
-          PROD_RESOURCE_GROUP: "{{form.pipeline.parameters.prod-resource-group}}"
-          PROD_CLUSTER_NAME: "{{form.pipeline.parameters.prod-cluster-name}}"
-          PROD_CLUSTER_NAMESPACE: "{{form.pipeline.parameters.prod-cluster-namespace}}"
+          CLUSTER_GROUP: "{{form.pipeline.parameters.cluster-group}}"
+          CLUSTER_NAMESPACE: "{{form.pipeline.parameters.cluster-namespace}}"
           APP_REPO_FULL: >
             if ( $env.source_provider === 'githubconsolidated' ) {
               "https://github.com/{{services.repo.parameters.owner_id}}/{{services.repo.parameters.repo_name}}";
@@ -192,14 +190,12 @@ form:
       app-name: >
         $env.appName ?
           '{{appName}}' : '{{services.repo.parameters.repo_name}}'
-      prod-cluster-namespace: >
-        $env.prodClusterNamespace ?
-          '{{prodClusterNamespace}}' : 'prod'
+      cluster-namespace: >
+        $env.clusterNamespace ?
+          '{{clusterNamespace}}' : 'prod'
       registry-region: '{{registryRegion}}'
       registry-namespace: '{{registryNamespace}}'
       api-key: '{{apiKey}}'
-      prod-region: '{{prodRegion}}'
-      prod-resource-group: '{{prodResourceGroup}}'
-      prod-cluster-name: '{{prodClusterName}}'
+      cluster-group: '{{clusterGroup}}'
     schema:
       $ref: deploy.json

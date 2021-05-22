@@ -46,11 +46,9 @@ spec:
     - name: keep-ingress-custom-domain
       description: force keep of ingress custom domain in deployment-file if any (true|false)
       default: "false"
-    - name: dev-region
-    - name: dev-resource-group
-    - name: cluster-name
-      description: the name of the cluster to target
-    - name: dev-cluster-namespace
+    - name: cluster-group
+      description: the name of the cluster group to target
+    - name: cluster-namespace
       description: the namespace
     - name: pipeline-debug
       default: "0"
@@ -282,15 +280,11 @@ spec:
       params:
         - name: shuttle-properties-file
           value: "build.properties"
-        - name: cluster-region
-          value: $(params.dev-region)
-        - name: resource-group
-          value: $(params.dev-resource-group)
-        - name: cluster-name
-          value: $(params.cluster-name)
+        - name: cluster-group
+          value: $(params.cluster-group)
         - name: setup-script
           value: |
-            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+            export CLUSTER_NAMESPACE="$(params.cluster-namespace)"
             export DEPLOYMENT_FILE="$(params.deployment-file)"
             export KEEP_INGRESS_CUSTOM_DOMAIN="$(params.keep-ingress-custom-domain)"
             # pipeline build number is the doi build record id (if any)
@@ -337,7 +331,7 @@ spec:
         - name: deployable-rg-id
           value: $(tasks.deploy-to-kubernetes.results.resource-group-id)
         - name: environment-label
-          value: "$(params.cluster-name) namespace:$(params.dev-cluster-namespace)"
+          value: "$(params.cluster-group) namespace:$(params.cluster-namespace)"
         - name: git-inputs
           value: "$(tasks.git-clone.results.git-repository),$(tasks.git-clone.results.git-commit),$(tasks.git-clone.results.git-branch)"
         - name: pipeline-debug
@@ -349,15 +343,11 @@ spec:
       params:
         - name: shuttle-properties-file
           value: "build.properties"
-        - name: cluster-region
-          value: $(params.dev-region)
-        - name: resource-group
-          value: $(params.dev-resource-group)
-        - name: cluster-name
-          value: $(params.cluster-name)
+        - name: cluster-group
+          value: $(params.cluster-group)
         - name: setup-script
           value: |
-            export CLUSTER_NAMESPACE="$(params.dev-cluster-namespace)"
+            export CLUSTER_NAMESPACE="$(params.cluster-namespace)"
         - name: script
           value: |
             # uncomment to debug the script
