@@ -13,9 +13,9 @@ template:
     - hello-world-repo
   info:
     git url: >-
-      [https://github.com/open-toolchain/secure-kube-toolchain](https://github.com/open-toolchain/secure-kube-toolchain)
+      [https://github.com/open-toolchain/satcon-kube-toolchain](https://github.com/open-toolchain/satcon-kube-toolchain)
     git branch: >-
-      [master](https://github.com/open-toolchain/secure-kube-toolchain/tree/master)
+      [master](https://github.com/open-toolchain/satcon-kube-toolchain/tree/master)
 toolchain:
   name: 'secure-kubernetes-toolchain-{{timestamp}}'
   template:

@@ -73,6 +73,6 @@ properties:
   - name: cluster-namespace
     value: ${CLUSTER_NAMESPACE}
     type: text
-  - name: cluster-group
+  - name: satellite-cluster-group
     value: ${CLUSTER_NAME}
     type: text

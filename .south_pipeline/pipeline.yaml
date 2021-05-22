@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: secure-kube-pipeline
+  name: satcon-kube-pipeline
 spec:
   params:
     - name: repository
@@ -43,7 +43,7 @@ spec:
     - name: keep-ingress-custom-domain
       description: force keep of ingress custom domain in deployment-file if any (true|false)
       default: "false"
-    - name: cluster-group
+    - name: satellite-cluster-group
       description: the name of the cluster to target
     - name: cluster-namespace
       description: the namespace
@@ -375,15 +375,15 @@ spec:
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: deploy-to-cluster-group
+    - name: deploy-to-satellite-cluster-group
       taskRef:
         name: sat-deploy-to-cluster-group
       runAfter: [vulnerability-advisor]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
-        - name: cluster-group
-          value: $(params.cluster-group)
+        - name: satellite-cluster-group
+          value: $(params.satellite-cluster-group)
         - name: setup-script
           value: |
         - name: script
@@ -405,7 +405,7 @@ spec:
             #    source <(curl -sSL "https://raw.githubusercontent.com/hmagph/commons/master/scripts/check_and_deploy_satconfig.sh")
             # ------------------
             source <(curl -sSL "https://raw.githubusercontent.com/hmagph/commons/master/scripts/check_and_deploy_satconfig.sh")
-            
+
             # Keep APP_URL in build.properties shuttle file
             echo "APP_URL=$APP_URL" >> build.properties
             IMAGE="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}@${IMAGE_MANIFEST_SHA}"
@@ -437,18 +437,18 @@ spec:
     - name: check-health
       taskRef:
         name: sat-deploy-to-cluster-group
-      runAfter: [deploy-to-kubernetes]
+      runAfter: [deploy-to-satellite-cluster-group]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
         - name: satellite-cluster-group
-          value: $(tasks.deploy-to-cluster-group.results.satellite-cluster-group)
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-cluster-group)
         - name: satellite-config-name
-          value: $(tasks.deploy-to-cluster-group.results.satellite-config-name)
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-name)
         - name: satellite-config-version-name
-          value: $(tasks.deploy-to-cluster-group.results.satellite-config-version-name)
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-version-name)
         - name: satellite-subscription-name
-          value: $(tasks.deploy-to-cluster-group.results.satellite-subscription-name)
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-subscription-name)
         - name: script
           value: |
             # uncomment to debug the script

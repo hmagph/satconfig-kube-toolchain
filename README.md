@@ -1,7 +1,7 @@
-# ![Icon](./.bluemix/secure-lock-kubernetes.png) Develop and deliver an app across a group of Kubernetes & OpenShift clusters 
+# ![Icon](./.bluemix/secure-lock-kubernetes.png) Develop a Kubernetes app across a Satellite cluster group
 
 
-### Continuously deliver a secure container app across clusters using Satellite Configuration
+### Continuously deliver a secure container app across clusters using Satellite configuration
 This Hello World application uses Docker with Node.js and includes a DevOps toolchain that is preconfigured for continuous delivery with Vulnerability Advisor, source control, issue tracking, and online editing, and deployment via IBM Cloud Satellite Configuration across a group of Kubernetes and OpenShift clusters.
 
 Application code is stored in source control, along with its Dockerfile and its Kubernetes deployment script.

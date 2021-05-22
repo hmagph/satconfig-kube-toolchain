@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
-  name: trigger-template-secure-kube
+  name: trigger-template-satcon-kube
 spec:
   params:
     - name: repository
@@ -44,7 +44,7 @@ spec:
       default: "false"
     - name: pipeline-debug
       default: "0"
-    - name: cluster-group
+    - name: satellite-cluster-group
       description: the name of the cluster group to target
     - name: cluster-namespace
       description: namespace dev
@@ -52,7 +52,7 @@ spec:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
-        name: secure-kube-$(uid)-pvc
+        name: satcon-kube-$(uid)-pvc
       spec:
         resources:
           requests:
@@ -63,10 +63,10 @@ spec:
     - apiVersion: tekton.dev/v1beta1
       kind: PipelineRun
       metadata:
-        name: secure-kube-$(uid)
+        name: satcon-kube-$(uid)
       spec:
         pipelineRef:
-          name: secure-kube-pipeline
+          name: satcon-kube-pipeline
         params:
           - name: repository
             value: $(params.repository)
@@ -98,8 +98,8 @@ spec:
             value: $(params.deployment-file)
           - name: keep-ingress-custom-domain
             value: $(params.keep-ingress-custom-domain)
-          - name: cluster-group
-            value: $(params.cluster-group)
+          - name: satellite-cluster-group
+            value: $(params.satellite-cluster-group)
           - name: cluster-namespace
             value: $(params.cluster-namespace)
           - name: pipeline-debug
@@ -107,7 +107,7 @@ spec:
         workspaces:
           - name: pipeline-ws
             persistentVolumeClaim:
-              claimName: secure-kube-$(uid)-pvc
+              claimName: satcon-kube-$(uid)-pvc
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -125,7 +125,7 @@ spec:
     - binding:
         name: trigger-binding-manual
       template:
-        name: trigger-template-secure-kube
+        name: trigger-template-satcon-kube
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -153,7 +153,7 @@ spec:
     - bindings: 
         - name: github-ent-commit   
       template:
-        name: trigger-template-secure-kube
+        name: trigger-template-satcon-kube
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -181,7 +181,7 @@ spec:
     - bindings:  
         - name: github-commit   
       template:
-        name: trigger-template-secure-kube
+        name: trigger-template-satcon-kube
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -209,7 +209,7 @@ spec:
     - bindings:   
         - name: grit-or-gitlab-commit
       template:
-        name: trigger-template-secure-kube
+        name: trigger-template-satcon-kube
 ---
 apiVersion: tekton.dev/v1beta1
 kind: TriggerBinding
@@ -239,4 +239,4 @@ spec:
     - binding:
         name: bitbucket-commit
       template:
-        name: trigger-template-secure-kube
+        name: trigger-template-satcon-kube

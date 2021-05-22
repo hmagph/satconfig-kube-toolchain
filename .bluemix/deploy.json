@@ -47,7 +47,7 @@
                 "validate": false
             }
         },
-        "cluster-group": {
+        "satellite-cluster-group": {
             "description": {
                 "$ref": "#/messages/deploy.clusterGroup"
             },
@@ -142,7 +142,7 @@
                     }
                 }, {
                     "type": "text",
-                    "key": "cluster-group",
+                    "key": "satellite-cluster-group",
                     "readonly": false
                 }, {
                     "type": "label",

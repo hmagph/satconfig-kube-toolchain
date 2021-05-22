@@ -2,7 +2,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: secure-kube-pipeline
+  name: satcon-kube-pipeline
 spec:
   params:
     - name: repository
@@ -46,7 +46,7 @@ spec:
     - name: keep-ingress-custom-domain
       description: force keep of ingress custom domain in deployment-file if any (true|false)
       default: "false"
-    - name: cluster-group
+    - name: satellite-cluster-group
       description: the name of the cluster group to target
     - name: cluster-namespace
       description: the namespace
@@ -273,16 +273,18 @@ spec:
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: deploy-to-kubernetes
+    - name: deploy-to-satellite-cluster-group
       taskRef:
-        name: iks-deploy-to-kubernetes
+        name: sat-deploy-to-cluster-group
       runAfter: [vulnerability-advisor]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
-        - name: cluster-group
-          value: $(params.cluster-group)
+        - name: satellite-cluster-group
+          value: $(params.satellite-cluster-group)
         - name: setup-script
+          value: |
+        - name: script
           value: |
             export CLUSTER_NAMESPACE="$(params.cluster-namespace)"
             export DEPLOYMENT_FILE="$(params.deployment-file)"
@@ -292,22 +294,16 @@ spec:
             echo "SOURCE_BUILD_NUMBER=$BUILD_NUMBER" >> build.properties
             # For doi plugin invocation if needed
             export TOOLCHAIN_ID=$PIPELINE_TOOLCHAIN_ID
-        - name: script
-          value: |
+
             # uncomment to debug the script
             # set -x
-            # copy the script below into your app code repo (e.g. ./scripts/check_and_deploy_kubectl.sh) and 'source' it from your pipeline job
-            #    source ./scripts/check_and_deploy_kubectl.sh
+            # copy the script below into your app code repo (e.g. ./scripts/check_and_deploy_satconfig.sh) and 'source' it from your pipeline job
+            #    source ./scripts/check_and_deploy_satconfig.sh
             # alternatively, you can source it from online script:
-            #    source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_and_deploy_kubectl.sh")
+            #    source <(curl -sSL "https://raw.githubusercontent.com/hmagph/commons/master/scripts/check_and_deploy_satconfig.sh")
             # ------------------
-            # source: https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_and_deploy_kubectl.sh
+            source <(curl -sSL "https://raw.githubusercontent.com/hmagph/commons/master/scripts/check_and_deploy_satconfig.sh")
 
-            # This script checks the IBM Container Service cluster is ready, has a namespace configured with access to the private
-            # image registry (using an IBM Cloud API Key), perform a kubectl deploy of container image and check on outcome.
-            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_and_deploy_kubectl.sh")
-        - name: post-execution-script
-          value: |
             # Keep APP_URL in build.properties shuttle file
             echo "APP_URL=$APP_URL" >> build.properties
             IMAGE="${REGISTRY_URL}/${REGISTRY_NAMESPACE}/${IMAGE_NAME}@${IMAGE_MANIFEST_SHA}"
@@ -317,49 +313,52 @@ spec:
       workspaces:
         - name: artifacts
           workspace: pipeline-ws
-    - name: publish-deployable-task
-      runAfter: [deploy-to-kubernetes]
-      taskRef:
-        name: toolchain-publish-deployable-mapping
-      params:
-        - name: deployable-type
-          value: "kubernetes_cluster"
-        - name: deployable-region-id
-          value: $(tasks.deploy-to-kubernetes.results.region)
-        - name: deployable-guid
-          value: $(tasks.deploy-to-kubernetes.results.cluster-id)
-        - name: deployable-rg-id
-          value: $(tasks.deploy-to-kubernetes.results.resource-group-id)
-        - name: environment-label
-          value: "$(params.cluster-group) namespace:$(params.cluster-namespace)"
-        - name: git-inputs
-          value: "$(tasks.git-clone.results.git-repository),$(tasks.git-clone.results.git-commit),$(tasks.git-clone.results.git-branch)"
-        - name: pipeline-debug
-          value: $(params.pipeline-debug)
+    # - name: publish-deployable-task
+    #   runAfter: [deploy-to-kubernetes]
+    #   taskRef:
+    #     name: toolchain-publish-deployable-mapping
+    #   params:
+    #     - name: deployable-type
+    #       value: "kubernetes_cluster"
+    #     - name: deployable-region-id
+    #       value: $(tasks.deploy-to-kubernetes.results.region)
+    #     - name: deployable-guid
+    #       value: $(tasks.deploy-to-kubernetes.results.cluster-id)
+    #     - name: deployable-rg-id
+    #       value: $(tasks.deploy-to-kubernetes.results.resource-group-id)
+    #     - name: environment-label
+    #       value: "$(params.cluster-group) namespace:$(params.-namespace)"
+    #     - name: git-inputs
+    #       value: "$(tasks.git-clone.results.git-repository),$(tasks.git-clone.results.git-commit),$(tasks.git-clone.results.git-branch)"
+    #     - name: pipeline-debug
+    #       value: $(params.pipeline-debug)
     - name: check-health
       taskRef:
-        name: iks-deploy-to-kubernetes
-      runAfter: [deploy-to-kubernetes]
+        name: sat-deploy-to-cluster-group
+      runAfter: [deploy-to-satellite-cluster-group]
       params:
         - name: shuttle-properties-file
           value: "build.properties"
-        - name: cluster-group
-          value: $(params.cluster-group)
-        - name: setup-script
-          value: |
-            export CLUSTER_NAMESPACE="$(params.cluster-namespace)"
+        - name: satellite-cluster-group
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-cluster-group)
+        - name: satellite-config-name
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-name)
+        - name: satellite-config-version-name
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-version-name)
+        - name: satellite-subscription-name
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-subscription-name)
         - name: script
           value: |
             # uncomment to debug the script
             # set -x
-            # copy the script below into your app code repo (e.g. ./scripts/check_health.sh) and 'source' it from your pipeline job
-            #    source ./scripts/check_health.sh
+            # copy the script below into your app code repo (e.g. ./scripts/check_health_satconfig.sh) and 'source' it from your pipeline job
+            #    source ./scripts/check_health_satconfig.sh
             # alternatively, you can source it from online script:
-            #    source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh")
+            #    source <(curl -sSL "https://raw.githubusercontent.com/hmagph/commons/master/scripts/check_health_satconfig.sh")
             # ------------------
-            # source: https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh
+            # source: https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health_satconfig.sh
             # Check liveness and readiness probes to confirm application is healthy
-            source <(curl -sSL "https://raw.githubusercontent.com/open-toolchain/commons/master/scripts/check_health.sh")
+            source <(curl -sSL "https://raw.githubusercontent.com/hmagph/commons/master/scripts/check_health_satconfig.sh")
         - name: pipeline-debug
           value: $(params.pipeline-debug)
       workspaces:
