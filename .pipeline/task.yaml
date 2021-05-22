@@ -17,13 +17,13 @@ spec:
     - name: satellite-cluster-group
       description: The name of the satellite cluster group
       default: ""
-    - name: satellite-config-name
+    - name: satellite-config
       description: The name of the satellite configuration deployed
       default: ""
-    - name: satellite-config-version-name
+    - name: satellite-config-version
       description: The name of the version of the satellite configuration deployed
       default: ""
-    - name: satellite-subscription-name
+    - name: satellite-subscription
       description: The name of the subscription of satellite configuration deployed
       default: ""
     - name: image-url
@@ -47,11 +47,11 @@ spec:
   results:
     - name: app-url
       description: The running application's URL (obtained from APP_URL variable set by the executed script)
-    - name: satellite-config-name
+    - name: satellite-config
       description: The name of the satellite configuration deployed
-    - name: satellite-config-version-name
+    - name: satellite-config-version
       description: The name of the version of the satellite configuration deployed
-    - name: satellite-subscription-name
+    - name: satellite-subscription
       description: The name of the subscription of satellite configuration deployed
   workspaces:
     - name: artifacts
@@ -86,11 +86,11 @@ spec:
         - name: SATELLITE_CLUSTER_GROUP
           value: $(params.satellite-cluster-group)
         - name: CONFIG_NAME
-          value: $(params.satellite-config-name)
+          value: $(params.satellite-config)
         - name: SUBSCRIPTION_NAME
-          value: $(params.satellite-subscription-name)
+          value: $(params.satellite-subscription)
         - name: VERSION_NAME
-          value: $(params.satellite-config-version-name)
+          value: $(params.satellite-config-version)
         - name: PIPELINE_IMAGE_URL
           value: $(params.image-url)
         - name: SHUTTLE_PROPERTIES_FILE
@@ -129,9 +129,9 @@ spec:
 
         # Record task results
         echo -n "$APP_URL" > $(results.app-url.path)
-        echo -n "$CONFIG_NAME" > $(results.satellite-config-name.path)
-        echo -n "$SUBSCRIPTION_NAME" > $(results.satellite-subscription-name.path)
-        echo -n "$VERSION_NAME" > $(results.satellite-config-version-name.path)
+        echo -n "$CONFIG_NAME" > $(results.satellite-config.path)
+        echo -n "$SUBSCRIPTION_NAME" > $(results.satellite-subscription.path)
+        echo -n "$VERSION_NAME" > $(results.satellite-config-version.path)
       volumeMounts:
         - mountPath: /cd-config
           name: cd-config-volume

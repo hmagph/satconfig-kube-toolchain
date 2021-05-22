@@ -17,13 +17,13 @@ spec:
     - name: satellite-cluster-group
       description: The name of the satellite cluster group
       default: ""
-    - name: satellite-config-name
+    - name: satellite-config
       description: The name of the satellite configuration deployed
       default: ""
-    - name: satellite-config-version-name
+    - name: satellite-config-version
       description: The name of the version of the satellite configuration deployed
       default: ""
-    - name: satellite-subscription-name
+    - name: satellite-subscription
       description: The name of the subscription of satellite configuration deployed
       default: ""
     - name: image-url
@@ -47,11 +47,11 @@ spec:
   results:
     - name: app-url
       description: The running application's URL (obtained from APP_URL variable set by the executed script)
-    - name: satellite-config-name
+    - name: satellite-config
       description: The name of the satellite configuration deployed
-    - name: satellite-config-version-name
+    - name: satellite-config-version
       description: The name of the version of the satellite configuration deployed
-    - name: satellite-subscription-name
+    - name: satellite-subscription
       description: The name of the subscription of satellite configuration deployed
   workspaces:
     - name: artifacts
@@ -85,12 +85,12 @@ spec:
               key: $(params.kubernetes-service-apikey-secret-key)
         - name: SATELLITE_CLUSTER_GROUP
           value: $(params.satellite-cluster-group)
-        - name: SATELLITE_CONFIG_NAME
-          value: $(params.satellite-config-name)
-        - name: SATELLITE_SUBSCRIPTION_NAME
-          value: $(params.satellite-subscription-name)
-        - name: SATELLITE_CONFIG_VERSION_NAME
-          value: $(params.satellite-config-version-name)
+        - name: SATELLITE_CONFIG
+          value: $(params.satellite-config)
+        - name: SATELLITE_SUBSCRIPTION
+          value: $(params.satellite-subscription)
+        - name: SATELLITE_CONFIG_VERSION
+          value: $(params.satellite-config-version)
         - name: PIPELINE_IMAGE_URL
           value: $(params.image-url)
         - name: SHUTTLE_PROPERTIES_FILE
@@ -129,9 +129,10 @@ spec:
 
         # Record task results
         echo -n "$APP_URL" > $(results.app-url.path)
-        echo -n "$SATELLITE_CONFIG_NAME" > $(results.satellite-config-name.path)
-        echo -n "$SATELLITE_SUBSCRIPTION_NAME" > $(results.satellite-subscription-name.path)
-        echo -n "$SATELLITE_CONFIG_VERSION_NAME" > $(results.satellite-config-version-name.path)
+        echo -n "$SATELLITE_CLUSTER_GROUP" > $(results.satellite-cluster-group.path)
+        echo -n "$SATELLITE_CONFIG" > $(results.satellite-config.path)
+        echo -n "$SATELLITE_SUBSCRIPTION" > $(results.satellite-subscription.path)
+        echo -n "$SATELLITE_CONFIG_VERSION" > $(results.satellite-config-version.path)
       volumeMounts:
         - mountPath: /cd-config
           name: cd-config-volume

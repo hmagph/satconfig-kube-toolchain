@@ -46,13 +46,13 @@ spec:
       default: "0"
     - name: satellite-cluster-group
       description: the name of the cluster group to target
-    - name: satellite-config-name
+    - name: satellite-config
       description: The name of the satellite configuration deployed
       default: ""
-    - name: satellite-config-version-name
+    - name: satellite-config-version
       description: The name of the version of the satellite configuration deployed
       default: ""
-    - name: satellite-subscription-name
+    - name: satellite-subscription
       description: The name of the subscription of satellite configuration deployed
       default: ""
     - name: cluster-namespace
@@ -119,12 +119,12 @@ spec:
             value: $(params.keep-ingress-custom-domain)
           - name: satellite-cluster-group
             value: $(params.satellite-cluster-group)
-          - name: satellite-config-name
-            value: $(params.satellite-config-name)
-          - name: satellite-config-version-name
-            value: $(params.satellite-config-version-name)
-          - name: satellite-subscription-name
-            value: $(params.satellite-subscription-name)
+          - name: satellite-config
+            value: $(params.satellite-config)
+          - name: satellite-config-version
+            value: $(params.satellite-config-version)
+          - name: satellite-subscription
+            value: $(params.satellite-subscription)
           - name: cluster-namespace
             value: $(params.cluster-namespace)
           - name: pipeline-debug

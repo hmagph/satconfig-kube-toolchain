@@ -45,13 +45,13 @@ spec:
       default: "false"
     - name: satellite-cluster-group
       description: the name of the cluster to target
-    - name: satellite-config-name
+    - name: satellite-config
       description: The name of the satellite configuration deployed
       default: ""
-    - name: satellite-config-version-name
+    - name: satellite-config-version
       description: The name of the version of the satellite configuration deployed
       default: ""
-    - name: satellite-subscription-name
+    - name: satellite-subscription
       description: The name of the subscription of satellite configuration deployed
       default: ""
     - name: cluster-namespace
@@ -452,12 +452,12 @@ spec:
           value: "build.properties"
         - name: satellite-cluster-group
           value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-cluster-group)
-        - name: satellite-config-name
-          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-name)
-        - name: satellite-config-version-name
-          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-version-name)
-        - name: satellite-subscription-name
-          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-subscription-name)
+        - name: satellite-config
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config)
+        - name: satellite-config-version
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-config-version)
+        - name: satellite-subscription
+          value: $(tasks.deploy-to-satellite-cluster-group.results.satellite-subscription)
         - name: script
           value: |
             # uncomment to debug the script
