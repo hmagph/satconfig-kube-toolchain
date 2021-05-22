@@ -74,5 +74,5 @@ properties:
     value: ${CLUSTER_NAMESPACE}
     type: text
   - name: satellite-cluster-group
-    value: ${CLUSTER_NAME}
+    value: ${CLUSTER_GROUP}
     type: text

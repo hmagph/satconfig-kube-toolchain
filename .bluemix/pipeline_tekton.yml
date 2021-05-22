@@ -71,7 +71,7 @@ properties:
     value: ${APP_NAME}
     type: text
   - name: cluster-namespace
-    value: ${PROD_CLUSTER_NAMESPACE}
+    value: ${CLUSTER_NAMESPACE}
     type: text
   - name: satellite-cluster-group
     value: ${CLUSTER_GROUP}
